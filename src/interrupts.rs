@@ -1,41 +1,7 @@
-use crate::{gdt, hlt_loop, print, println};
+use crate::{gdt, println};
 use lazy_static::lazy_static;
-use spin;
-use x86_64::structures::idt::{InterruptDescriptorTable, InterruptStackFrame, PageFaultErrorCode};
+use x86_64::structures::idt::{InterruptDescriptorTable, InterruptStackFrame};
 
-pub const PIC_1_OFFSET: u8 = 32;
-pub const PIC_2_OFFSET: u8 = PIC_1_OFFSET + 8;
-
-#[derive(Debug, Clone, Copy)]
-#[repr(u8)]
-pub enum InterruptIndex {
-    Timer = PIC_1_OFFSET,
-    Keyboard,
-    PIC2,
-    Serial1,
-    Serial2,
-    ParallelPort2,
-    Floppy,
-    ParallelPort1,
-    RTC,
-    ACPI,
-    Unused1,
-    Unused2,
-    Mouse,
-    CoProcessor,
-    PrimaryAta,
-    SecondaryAta,
-}
-
-impl InterruptIndex {
-    fn as_u8(self) -> u8 {
-        self as u8
-    }
-
-    fn as_usize(self) -> usize {
-        usize::from(self.as_u8())
-    }
-}
 
 lazy_static! {
     static ref IDT: InterruptDescriptorTable = {
