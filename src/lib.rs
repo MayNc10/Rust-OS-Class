@@ -1,6 +1,7 @@
 #![no_std]
 
-use core::panic::PanicInfo;
+
+pub mod vga_buffer;
 
 pub fn hlt_loop() -> ! {
     loop {
