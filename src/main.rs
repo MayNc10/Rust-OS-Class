@@ -8,6 +8,7 @@ use core::panic::PanicInfo;
 entry_point!(kernel_main);
 
 fn kernel_main(boot_info: &'static BootInfo) -> ! {
+    rust_os::init();
     println!("Hello, World!");
     rust_os::hlt_loop();
 }
