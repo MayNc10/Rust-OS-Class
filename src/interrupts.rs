@@ -1,6 +1,5 @@
 use crate::{gdt, hlt_loop, print, println};
 use lazy_static::lazy_static;
-use pic8259::ChainedPics;
 use spin;
 use x86_64::structures::idt::{InterruptDescriptorTable, InterruptStackFrame, PageFaultErrorCode};
 
@@ -37,9 +36,6 @@ impl InterruptIndex {
         usize::from(self.as_u8())
     }
 }
-
-pub static PICS: spin::Mutex<ChainedPics> =
-    spin::Mutex::new(unsafe { ChainedPics::new(PIC_1_OFFSET, PIC_2_OFFSET) });
 
 lazy_static! {
     static ref IDT: InterruptDescriptorTable = {
